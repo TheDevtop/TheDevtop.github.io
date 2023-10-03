@@ -11,6 +11,47 @@
     
     
     
+    <item>
+      <title>UVM: A secret love letter</title>
+      <link>https://thedevtop.github.io/uvm-a-secret-love-letter/</link>
+      <pubDate>Tue, 03 Oct 2023 19:25:35 +0200</pubDate>
+      
+      <guid>https://thedevtop.github.io/uvm-a-secret-love-letter/</guid>
+      <description>&lt;p&gt;Recently, I had some DIMM corruption, which led me to decommission one of my machines.
+The hole situation got me thinking about the fragility of software and how not even the most elegant abstraction can save you from the grim reality of hardware failure.
+It also happens to be a good reason to talk about one of my favorite pieces of software: &lt;a href=&#34;https://www.usenix.org/legacy/event/usenix99/full_papers/cranor/cranor.pdf&#34;&gt;The UVM Virtual Memory System&lt;/a&gt;.&lt;/p&gt;
+&lt;h3 id=&#34;let-there-be-light&#34;&gt;Let there be light&lt;/h3&gt;
+&lt;p&gt;UVM is the virtual memory subsystem used in the kernels of &lt;a href=&#34;https://www.openbsd.org/&#34;&gt;OpenBSD&lt;/a&gt; and &lt;a href=&#34;https://www.netbsd.org/&#34;&gt;NetBSD&lt;/a&gt;.
+It was written to replace the old (4.4BSD) virtual memory subsystem, which was a modified version of the one found in Carnegie Mellon&amp;rsquo;s &lt;a href=&#34;https://en.wikipedia.org/wiki/Mach_(kernel)&#34;&gt;Mach&lt;/a&gt; microkernel.
+The reason for replacement was straightforward: Poor performance, complex data structures, and poor documentation.
+Which is quite funny because today (2023) the best documentation I could find about the Mach VM comes from &lt;a href=&#34;https://developer.apple.com/documentation/kernel/mach/vm&#34;&gt;Apple&lt;/a&gt; and &lt;a href=&#34;http://web.mit.edu/darwin/src/modules/xnu/osfmk/man/&#34;&gt;MIT&lt;/a&gt;, not from Carnegie Mellon.&lt;/p&gt;
+&lt;p&gt;The reason for UVM is the classic triad: Simplicity, performance, and maintainability.&lt;/p&gt;
+&lt;h3 id=&#34;masters-of-architecture&#34;&gt;Masters of architecture&lt;/h3&gt;
+&lt;p&gt;Having a great VM implementation is one thing, but having a great paper to companion it is something else entirely.
+With UVM, Cranor and Parulkar give us both.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://thedevtop.github.io/uvm_arch.png&#34; alt=&#34;uvm_arch&#34;&gt;
+The architecture is easy to understand.
+The &lt;em&gt;vmspace&lt;/em&gt; structure contains pointers to a process’s &lt;em&gt;pmap&lt;/em&gt; and &lt;em&gt;memory map&lt;/em&gt; structures, it also contains some statistics.
+The &lt;em&gt;pmap&lt;/em&gt; is the machine-dependent structure, while the &lt;em&gt;memory map&lt;/em&gt; is the machine-independent structure that holds the memory objects.&lt;/p&gt;
+&lt;p&gt;Some observations: The various segments (text/data/stack) are seperate objects, which is beneficial for security.
+The objects can be of many types, and backed by many &lt;em&gt;pagers&lt;/em&gt;.
+The important thing here, is that these types and pagers can be implemented by &lt;strong&gt;other&lt;/strong&gt; kernel subsystems (which I think is so cool).
+Finally, UVM allows for anonymous mapping, which is usefull if you have two processes that map the same object (like the text segment of &lt;code&gt;/bin/sh&lt;/code&gt;).&lt;/p&gt;
+&lt;h3 id=&#34;the-sound-of-memory&#34;&gt;The sound of memory&lt;/h3&gt;
+&lt;p&gt;Managing (virtual) memory is not easy, and implementing a good VM is definitely not easy. But UVM manages to do it while retaining flexibility and an astonishingly simple architecture.&lt;/p&gt;
+&lt;p&gt;Simplicity while managing &lt;a href=&#34;https://en.wikipedia.org/wiki/Kernel_(operating_system)&#34;&gt;Heaven and Earth&lt;/a&gt;, is why UVM remains my favorite piece of software.&lt;/p&gt;
+&lt;h3 id=&#34;sources&#34;&gt;Sources&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/NetBSD/src/tree/trunk/sys/uvm&#34;&gt;NetBSD Kernel/UVM (Source)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/openbsd/src/tree/master/sys/uvm&#34;&gt;OpenBSD Kernel/UVM (Source)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/openmach/openmach/tree/master/kernel/vm&#34;&gt;OpenMach VM (Source)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.usenix.org/legacy/events/usenix2000/freenix/full_papers/silvers/silvers.pdf&#34;&gt;Unified Buffer Cache (Paper)&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    
+    
     
   </channel>
 </rss>

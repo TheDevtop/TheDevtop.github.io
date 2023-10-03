@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Along the Watchtower">
+    
+    <link rel="shortcut icon" href="https://thedevtop.github.io/favicon.ico">
+    
+    <link rel="stylesheet" href="/css/style.min.css">
+
+    <link rel="canonical" href="https://thedevtop.github.io/uvm-a-secret-love-letter/" />
+    <title>UVM: A secret love letter</title>
+</head>
+<body><header id="banner">
+    <h2><a href="https://thedevtop.github.io">TheDevtop</a></h2>
+    <nav>
+        <ul>
+            <li>
+                <a href="/" title="posts">posts</a>
+            </li><li>
+                <a href="/about/" title="about">about</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main id="content">
+<article>
+    <header id="post-header">
+        <h1>UVM: A secret love letter</h1>
+        <div>
+                <time>October 3, 2023</time>
+            </div>
+    </header><p>Recently, I had some DIMM corruption, which led me to decommission one of my machines.
+The hole situation got me thinking about the fragility of software and how not even the most elegant abstraction can save you from the grim reality of hardware failure.
+It also happens to be a good reason to talk about one of my favorite pieces of software: <a href="https://www.usenix.org/legacy/event/usenix99/full_papers/cranor/cranor.pdf">The UVM Virtual Memory System</a>.</p>
+<h3 id="let-there-be-light">Let there be light</h3>
+<p>UVM is the virtual memory subsystem used in the kernels of <a href="https://www.openbsd.org/">OpenBSD</a> and <a href="https://www.netbsd.org/">NetBSD</a>.
+It was written to replace the old (4.4BSD) virtual memory subsystem, which was a modified version of the one found in Carnegie Mellon&rsquo;s <a href="https://en.wikipedia.org/wiki/Mach_(kernel)">Mach</a> microkernel.
+The reason for replacement was straightforward: Poor performance, complex data structures, and poor documentation.
+Which is quite funny because today (2023) the best documentation I could find about the Mach VM comes from <a href="https://developer.apple.com/documentation/kernel/mach/vm">Apple</a> and <a href="http://web.mit.edu/darwin/src/modules/xnu/osfmk/man/">MIT</a>, not from Carnegie Mellon.</p>
+<p>The reason for UVM is the classic triad: Simplicity, performance, and maintainability.</p>
+<h3 id="masters-of-architecture">Masters of architecture</h3>
+<p>Having a great VM implementation is one thing, but having a great paper to companion it is something else entirely.
+With UVM, Cranor and Parulkar give us both.</p>
+<p><img src="/uvm_arch.png" alt="uvm_arch">
+The architecture is easy to understand.
+The <em>vmspace</em> structure contains pointers to a process’s <em>pmap</em> and <em>memory map</em> structures, it also contains some statistics.
+The <em>pmap</em> is the machine-dependent structure, while the <em>memory map</em> is the machine-independent structure that holds the memory objects.</p>
+<p>Some observations: The various segments (text/data/stack) are seperate objects, which is beneficial for security.
+The objects can be of many types, and backed by many <em>pagers</em>.
+The important thing here, is that these types and pagers can be implemented by <strong>other</strong> kernel subsystems (which I think is so cool).
+Finally, UVM allows for anonymous mapping, which is usefull if you have two processes that map the same object (like the text segment of <code>/bin/sh</code>).</p>
+<h3 id="the-sound-of-memory">The sound of memory</h3>
+<p>Managing (virtual) memory is not easy, and implementing a good VM is definitely not easy. But UVM manages to do it while retaining flexibility and an astonishingly simple architecture.</p>
+<p>Simplicity while managing <a href="https://en.wikipedia.org/wiki/Kernel_(operating_system)">Heaven and Earth</a>, is why UVM remains my favorite piece of software.</p>
+<h3 id="sources">Sources</h3>
+<ul>
+<li><a href="https://github.com/NetBSD/src/tree/trunk/sys/uvm">NetBSD Kernel/UVM (Source)</a></li>
+<li><a href="https://github.com/openbsd/src/tree/master/sys/uvm">OpenBSD Kernel/UVM (Source)</a></li>
+<li><a href="https://github.com/openmach/openmach/tree/master/kernel/vm">OpenMach VM (Source)</a></li>
+<li><a href="https://www.usenix.org/legacy/events/usenix2000/freenix/full_papers/silvers/silvers.pdf">Unified Buffer Cache (Paper)</a></li>
+</ul>
+</article>
+
+        </main><footer id="footer">
+    Copyright © 2023 Thijs Haker
+</footer>
+</body>
+</html>
