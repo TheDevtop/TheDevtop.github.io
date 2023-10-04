@@ -6,9 +6,50 @@
     <description>Recent content on TheDevtop</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Tue, 03 Oct 2023 19:25:35 +0200</lastBuildDate>
+    <lastBuildDate>Tue, 03 Oct 2023 22:21:54 +0200</lastBuildDate>
     
 	<atom:link href="https://thedevtop.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    
+    <item>
+      <title>The compiler is right</title>
+      <link>https://thedevtop.github.io/the-compiler-is-right/</link>
+      <pubDate>Tue, 03 Oct 2023 22:21:54 +0200</pubDate>
+      
+      <guid>https://thedevtop.github.io/the-compiler-is-right/</guid>
+      <description>&lt;p&gt;Last summer was quite special, for me it was the summer of Rust.
+I started at &amp;ldquo;Hello, world!&amp;rdquo; and ended with multi-threaded Map/Filter/Reduce functions, all while handling errors &lt;strong&gt;correctly&lt;/strong&gt;.
+The Rust compiler is a real help with that, and it&amp;rsquo;s because of its strictness that it can produce such helpfull messages.&lt;/p&gt;
+&lt;p&gt;After the summer break I found out that: Not only did Rust grinding improve my general (Go/C) programming skills, it also improved my taste for good error messaging.
+If C thaught me how the machine worked, then Rust taught me what the machine could do.
+There is a slight irony there because even tough Rust and C are both seen as systems languages, in personality they are very much the opposite.&lt;/p&gt;
+&lt;h3 id=&#34;colliding-characters&#34;&gt;Colliding characters&lt;/h3&gt;
+&lt;p&gt;The C programming language is in spirit the same as its elder brother: The UNIX operating system.
+Both view the universe trough a single lens.
+In UNIX, everything is a file descriptor; in C, everything is a pointer.
+They allow you great flexibility in how to interact with that universe, sometimes even to a ridiculus extend.
+Herein lies the problem, you can use that flexibility to break the universe.&lt;/p&gt;
+&lt;p&gt;Enter Rust, its lens is like C (everything is a pointer).
+But its argument is rather different: The universe is presumed fragile, thus we will only allow interaction in a &lt;strong&gt;correct&lt;/strong&gt; manner.
+Correct meaning the disambiguation of memory/pointers.&lt;/p&gt;
+&lt;p&gt;Programmers don&amp;rsquo;t think about this too often, but these arguments are interwoven with the behaviour of the compilers.
+Which is why Rust won&amp;rsquo;t compile your code and give you very explicit errors; and why C will compile almost any crazy contraption you will come up with.&lt;/p&gt;
+&lt;p&gt;But here is the kicker, you can learn from both worlds.&lt;/p&gt;
+&lt;h3 id=&#34;the-better-programmer&#34;&gt;The better programmer&lt;/h3&gt;
+&lt;p&gt;A good programmer can break problems down in small pieces (top-down), and build solutions from simple primitives (bottom-up).
+A better programmer also knows (like the good blacksmith), that steel can be used to both build railroads and swords.
+Sometimes you will need to probe into the soul of the machine;
+learning the lessons from Rust and applying them as practice into C codebases has made me a better programmer, and it will make you.&lt;/p&gt;
+&lt;p&gt;Whether your code will compile or not, the compiler is right.&lt;/p&gt;
+&lt;h3 id=&#34;sources&#34;&gt;Sources&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.amazon.nl/-/en/Steve-Klabnik/dp/1718503105&#34;&gt;Book: The Rust Programming Language&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.amazon.com/Programming-Language-2nd-Brian-Kernighan/dp/0131103628&#34;&gt;Book: The C Programming Language&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.amazon.com/Unix-Programming-Environment-Prentice-Hall-Software/dp/013937681X&#34;&gt;Book: The UNIX Programming Environment&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
     
     
     
@@ -19,7 +60,7 @@
       
       <guid>https://thedevtop.github.io/uvm-a-secret-love-letter/</guid>
       <description>&lt;p&gt;Recently, I had some DIMM corruption, which led me to decommission one of my machines.
-The hole situation got me thinking about the fragility of software and how not even the most elegant abstraction can save you from the grim reality of hardware failure.
+The hole situation got me thinking about the fragility of software and how not even the most elegant abstraction, can save you from the grim reality of hardware failure.
 It also happens to be a good reason to talk about one of my favorite pieces of software: &lt;a href=&#34;https://www.usenix.org/legacy/event/usenix99/full_papers/cranor/cranor.pdf&#34;&gt;The UVM Virtual Memory System&lt;/a&gt;.&lt;/p&gt;
 &lt;h3 id=&#34;let-there-be-light&#34;&gt;Let there be light&lt;/h3&gt;
 &lt;p&gt;UVM is the virtual memory subsystem used in the kernels of &lt;a href=&#34;https://www.openbsd.org/&#34;&gt;OpenBSD&lt;/a&gt; and &lt;a href=&#34;https://www.netbsd.org/&#34;&gt;NetBSD&lt;/a&gt;.

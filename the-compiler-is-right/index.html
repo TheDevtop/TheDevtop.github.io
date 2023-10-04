@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Along the Watchtower">
+    
+    <link rel="shortcut icon" href="https://thedevtop.github.io/favicon.ico">
+    
+    <link rel="stylesheet" href="/css/style.min.css">
+
+    <link rel="canonical" href="https://thedevtop.github.io/the-compiler-is-right/" />
+    <title>The compiler is right</title>
+</head>
+<body><header id="banner">
+    <h2><a href="https://thedevtop.github.io">TheDevtop</a></h2>
+    <nav>
+        <ul>
+            <li>
+                <a href="/" title="posts">posts</a>
+            </li><li>
+                <a href="/about/" title="about">about</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main id="content">
+<article>
+    <header id="post-header">
+        <h1>The compiler is right</h1>
+        <div>
+                <time>October 3, 2023</time>
+            </div>
+    </header><p>Last summer was quite special, for me it was the summer of Rust.
+I started at &ldquo;Hello, world!&rdquo; and ended with multi-threaded Map/Filter/Reduce functions, all while handling errors <strong>correctly</strong>.
+The Rust compiler is a real help with that, and it&rsquo;s because of its strictness that it can produce such helpfull messages.</p>
+<p>After the summer break I found out that: Not only did Rust grinding improve my general (Go/C) programming skills, it also improved my taste for good error messaging.
+If C thaught me how the machine worked, then Rust taught me what the machine could do.
+There is a slight irony there because even tough Rust and C are both seen as systems languages, in personality they are very much the opposite.</p>
+<h3 id="colliding-characters">Colliding characters</h3>
+<p>The C programming language is in spirit the same as its elder brother: The UNIX operating system.
+Both view the universe trough a single lens.
+In UNIX, everything is a file descriptor; in C, everything is a pointer.
+They allow you great flexibility in how to interact with that universe, sometimes even to a ridiculus extend.
+Herein lies the problem, you can use that flexibility to break the universe.</p>
+<p>Enter Rust, its lens is like C (everything is a pointer).
+But its argument is rather different: The universe is presumed fragile, thus we will only allow interaction in a <strong>correct</strong> manner.
+Correct meaning the disambiguation of memory/pointers.</p>
+<p>Programmers don&rsquo;t think about this too often, but these arguments are interwoven with the behaviour of the compilers.
+Which is why Rust won&rsquo;t compile your code and give you very explicit errors; and why C will compile almost any crazy contraption you will come up with.</p>
+<p>But here is the kicker, you can learn from both worlds.</p>
+<h3 id="the-better-programmer">The better programmer</h3>
+<p>A good programmer can break problems down in small pieces (top-down), and build solutions from simple primitives (bottom-up).
+A better programmer also knows (like the good blacksmith), that steel can be used to both build railroads and swords.
+Sometimes you will need to probe into the soul of the machine;
+learning the lessons from Rust and applying them as practice into C codebases has made me a better programmer, and it will make you.</p>
+<p>Whether your code will compile or not, the compiler is right.</p>
+<h3 id="sources">Sources</h3>
+<ul>
+<li><a href="https://www.amazon.nl/-/en/Steve-Klabnik/dp/1718503105">Book: The Rust Programming Language</a></li>
+<li><a href="https://www.amazon.com/Programming-Language-2nd-Brian-Kernighan/dp/0131103628">Book: The C Programming Language</a></li>
+<li><a href="https://www.amazon.com/Unix-Programming-Environment-Prentice-Hall-Software/dp/013937681X">Book: The UNIX Programming Environment</a></li>
+</ul>
+</article>
+
+        </main><footer id="footer">
+    Copyright © 2023 Thijs Haker
+</footer>
+</body>
+</html>
