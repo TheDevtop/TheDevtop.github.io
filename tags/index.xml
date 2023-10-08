@@ -75,12 +75,12 @@ The architecture is easy to understand.
 The &lt;em&gt;vmspace&lt;/em&gt; structure contains pointers to a process’s &lt;em&gt;pmap&lt;/em&gt; and &lt;em&gt;memory map&lt;/em&gt; structures, it also contains some statistics.
 The &lt;em&gt;pmap&lt;/em&gt; is the machine-dependent structure, while the &lt;em&gt;memory map&lt;/em&gt; is the machine-independent structure that holds the memory objects.&lt;/p&gt;
 &lt;p&gt;Some observations: The various segments (text/data/stack) are seperate objects, which is beneficial for security.
-The objects can be of many types, and backed by many &lt;em&gt;pagers&lt;/em&gt;.
-The important thing here, is that these types and pagers can be implemented by &lt;strong&gt;other&lt;/strong&gt; kernel subsystems (which I think is so cool).
+The objects can be of different types, and backed different &lt;em&gt;pagers&lt;/em&gt;.
+The important thing here, is that these types and pagers can be implemented by &lt;strong&gt;other&lt;/strong&gt; kernel subsystems (I think this is really cool).
 Finally, UVM allows for anonymous mapping, which is usefull if you have two processes that map the same object (like the text segment of &lt;code&gt;/bin/sh&lt;/code&gt;).&lt;/p&gt;
 &lt;h3 id=&#34;the-sound-of-memory&#34;&gt;The sound of memory&lt;/h3&gt;
-&lt;p&gt;Managing (virtual) memory is not easy, and implementing a good VM is definitely not easy. But UVM manages to do it while retaining flexibility and an astonishingly simple architecture.&lt;/p&gt;
-&lt;p&gt;Simplicity while managing &lt;a href=&#34;https://en.wikipedia.org/wiki/Kernel_(operating_system)&#34;&gt;Heaven and Earth&lt;/a&gt;, is why UVM remains my favorite piece of software.&lt;/p&gt;
+&lt;p&gt;Wether it&amp;rsquo;s kmalloc() or mmap(), in the end they all function because of UVM.
+And because UVM presents a simple and consistent interface, it will remain one of my favorite pieces of software.&lt;/p&gt;
 &lt;h3 id=&#34;sources&#34;&gt;Sources&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;https://github.com/NetBSD/src/tree/trunk/sys/uvm&#34;&gt;NetBSD Kernel/UVM (Source)&lt;/a&gt;&lt;/li&gt;

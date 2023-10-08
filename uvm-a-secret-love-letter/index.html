@@ -47,12 +47,12 @@ The architecture is easy to understand.
 The <em>vmspace</em> structure contains pointers to a process’s <em>pmap</em> and <em>memory map</em> structures, it also contains some statistics.
 The <em>pmap</em> is the machine-dependent structure, while the <em>memory map</em> is the machine-independent structure that holds the memory objects.</p>
 <p>Some observations: The various segments (text/data/stack) are seperate objects, which is beneficial for security.
-The objects can be of many types, and backed by many <em>pagers</em>.
-The important thing here, is that these types and pagers can be implemented by <strong>other</strong> kernel subsystems (which I think is so cool).
+The objects can be of different types, and backed different <em>pagers</em>.
+The important thing here, is that these types and pagers can be implemented by <strong>other</strong> kernel subsystems (I think this is really cool).
 Finally, UVM allows for anonymous mapping, which is usefull if you have two processes that map the same object (like the text segment of <code>/bin/sh</code>).</p>
 <h3 id="the-sound-of-memory">The sound of memory</h3>
-<p>Managing (virtual) memory is not easy, and implementing a good VM is definitely not easy. But UVM manages to do it while retaining flexibility and an astonishingly simple architecture.</p>
-<p>Simplicity while managing <a href="https://en.wikipedia.org/wiki/Kernel_(operating_system)">Heaven and Earth</a>, is why UVM remains my favorite piece of software.</p>
+<p>Wether it&rsquo;s kmalloc() or mmap(), in the end they all function because of UVM.
+And because UVM presents a simple and consistent interface, it will remain one of my favorite pieces of software.</p>
 <h3 id="sources">Sources</h3>
 <ul>
 <li><a href="https://github.com/NetBSD/src/tree/trunk/sys/uvm">NetBSD Kernel/UVM (Source)</a></li>
