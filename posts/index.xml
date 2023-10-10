@@ -6,9 +6,51 @@
     <description>Recent content in Posts on TheDevtop</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Tue, 03 Oct 2023 22:21:54 +0200</lastBuildDate>
+    <lastBuildDate>Tue, 10 Oct 2023 18:16:31 +0200</lastBuildDate>
     
 	<atom:link href="https://thedevtop.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    
+    <item>
+      <title>Lip service to a LISP serializer</title>
+      <link>https://thedevtop.github.io/lip-service-to-a-lisp-serializer/</link>
+      <pubDate>Tue, 10 Oct 2023 18:16:31 +0200</pubDate>
+      
+      <guid>https://thedevtop.github.io/lip-service-to-a-lisp-serializer/</guid>
+      <description>&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-lisp&#34; data-lang=&#34;lisp&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;Rembrandt&amp;#34;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;van Rijn&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;Johannes&amp;#34;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;Vermeer&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;Jheronimus&amp;#34;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;Bosch&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;Frans&amp;#34;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;Hals&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Simple, compact, expressive&amp;hellip; Beautiful!&lt;/p&gt;
+&lt;h3 id=&#34;lisp-in-the-sky-with-diamonds&#34;&gt;Lisp in the Sky with Diamonds&lt;/h3&gt;
+&lt;p&gt;That what you witnessed above, is not real Lisp.
+Or at least it was not produced by real Lisp&amp;hellip;&lt;/p&gt;
+&lt;p&gt;I confess, I have been experimenting with &lt;a href=&#34;https://www.rust-lang.org/&#34;&gt;Rust&lt;/a&gt; again.
+This time I started by visiting the website of &lt;a href=&#34;https://serde.rs/&#34;&gt;Serde&lt;/a&gt;.
+When I landed on the homepage I saw a list of data formats implemented for Serde.
+I recognized many names, all the many that I have used before.
+But one stood out to me, this one was the &lt;a href=&#34;https://en.wikipedia.org/wiki/S-expression&#34;&gt;S-Expression&lt;/a&gt; format.
+I have heard of its potency;
+I have heard that it can make you understand, things you have never understood before.&lt;/p&gt;
+&lt;p&gt;I took a handfull of parentheses, and I took them whole.
+When the lights went finally out, I experienced the highest of intellectual highs.
+The realm of computation is a wonderous plain, and one day you will find it too.&lt;/p&gt;
+&lt;h3 id=&#34;s-expressions&#34;&gt;S-Expressions&lt;/h3&gt;
+&lt;p&gt;So, I have discovered S-Expressions as (de)serialized by Rust&amp;rsquo;s Serde.
+S-Expressions are the symbolic form of Lisp objects, similair to what &lt;a href=&#34;https://www.json.org/json-en.html&#34;&gt;JSON&lt;/a&gt; is to JavaScript.
+But while JSON objects are primarily for data, S-Expressions can also be used for &lt;em&gt;code&lt;/em&gt;.
+Which means that S-Expressions can be used to create small/domain-specific programming languages,
+to implement various forms of automata,
+or to use as syntactically interesting key/value stores.&lt;/p&gt;
+&lt;h3 id=&#34;rusty-calculators&#34;&gt;Rusty calculators&lt;/h3&gt;
+&lt;p&gt;I will continue this experiment, and see if I can write a language that can do basic arithmatic.
+About which I will undoubtedly write about.&lt;/p&gt;
+&lt;p&gt;For now get yourself a copy of &lt;a href=&#34;https://github.com/rotty/lexpr-rs&#34;&gt;lexpr-rs&lt;/a&gt;, and see where it will take you.&lt;/p&gt;
+</description>
+    </item>
     
     
     
