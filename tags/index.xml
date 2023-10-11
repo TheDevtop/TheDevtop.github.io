@@ -12,6 +12,54 @@
     
     
     <item>
+      <title>fcmpose</title>
+      <link>https://thedevtop.github.io/fcmpose/</link>
+      <pubDate>Wed, 11 Oct 2023 22:48:05 +0200</pubDate>
+      
+      <guid>https://thedevtop.github.io/fcmpose/</guid>
+      <description>&lt;p&gt;This article is about a program I wrote to compose text files via macros.
+The macros are based on file names, and they are parsed by a compiled regular expression.
+I wrote this program because I wanted the capability of a templating engine, but with the simplicity of &lt;code&gt;$ cat&lt;/code&gt;.&lt;/p&gt;
+&lt;h3 id=&#34;macros&#34;&gt;Macros&lt;/h3&gt;
+&lt;p&gt;Macros are a set of symbols, that (when called) will expand to a certain output.
+This definition applies very well to fcmpose.
+In fcmpose, macros expand to the contents of their files.
+So the macro &lt;code&gt;$foo$&lt;/code&gt; will expand to the content of &lt;code&gt;./foo&lt;/code&gt;.
+Do note that this expansion is recursive, and infinite recursion will result in a stack overflow.&lt;/p&gt;
+&lt;p&gt;So don&amp;rsquo;t let content of &lt;code&gt;./foo&lt;/code&gt; be &lt;code&gt;Hello, %foo%!&lt;/code&gt;; this will harm your machine!&lt;/p&gt;
+&lt;h3 id=&#34;regular-expressions&#34;&gt;Regular expressions&lt;/h3&gt;
+&lt;p&gt;To search for our macros I make use of two regular expressions:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Major:    &lt;code&gt;\$[a-zA-Z0-9\/\.]+\$&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Minor:    &lt;code&gt;[\/a-zA-Z0-9\.]+&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Major finds the actual macro, while minor finds the file path inside the macro.
+To compile these regular expressions I use the std/regexp package, which implements the RE2 engine by Russ Cox.&lt;/p&gt;
+&lt;p&gt;I could talk about regular expressions all day, but that is not the point of this article.
+And I will end up writing an article about formal grammers and automata anyway.&lt;/p&gt;
+&lt;h3 id=&#34;usage&#34;&gt;Usage&lt;/h3&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;fcmpose: Compose files with macros
+  -if string
+    	Specify input file
+  -of string
+    	Specify output file (default &amp;#34;/dev/stdout&amp;#34;)
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h3&gt;
+&lt;p&gt;I enjoyed writing this program, because it made me understand some essential concepts even better.
+And the program ended up the way I wanted: Simple and expressive, at the same time.&lt;/p&gt;
+&lt;h3 id=&#34;sources&#34;&gt;Sources&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://man.netbsd.org/cat.1&#34;&gt;Manual: cat(1)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://swtch.com/~rsc/regexp/&#34;&gt;Russ Cox: RE2&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/Macro_(computer_science)&#34;&gt;Wikipedia: Macros&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/TheDevtop/fcmpose&#34;&gt;GitHub: Source&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/TheDevtop/fcmpose/releases/download/v1.0.0/fcmpose.gz&#34;&gt;GitHub: Binary&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    
+    
+    <item>
       <title>Lip service to a LISP serializer</title>
       <link>https://thedevtop.github.io/lip-service-to-a-lisp-serializer/</link>
       <pubDate>Tue, 10 Oct 2023 18:16:31 +0200</pubDate>

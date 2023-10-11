@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Along the Watchtower">
+    
+    <link rel="shortcut icon" href="https://thedevtop.github.io/favicon.ico">
+    
+    <link rel="stylesheet" href="/css/style.min.css">
+
+    <link rel="canonical" href="https://thedevtop.github.io/fcmpose/" />
+    <title>fcmpose</title>
+</head>
+<body><header id="banner">
+    <h2><a href="https://thedevtop.github.io">TheDevtop</a></h2>
+    <nav>
+        <ul>
+            <li>
+                <a href="/" title="posts">posts</a>
+            </li><li>
+                <a href="/about/" title="about">about</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main id="content">
+<article>
+    <header id="post-header">
+        <h1>fcmpose</h1>
+        <div>
+                <time>October 11, 2023</time>
+            </div>
+    </header><p>This article is about a program I wrote to compose text files via macros.
+The macros are based on file names, and they are parsed by a compiled regular expression.
+I wrote this program because I wanted the capability of a templating engine, but with the simplicity of <code>$ cat</code>.</p>
+<h3 id="macros">Macros</h3>
+<p>Macros are a set of symbols, that (when called) will expand to a certain output.
+This definition applies very well to fcmpose.
+In fcmpose, macros expand to the contents of their files.
+So the macro <code>$foo$</code> will expand to the content of <code>./foo</code>.
+Do note that this expansion is recursive, and infinite recursion will result in a stack overflow.</p>
+<p>So don&rsquo;t let content of <code>./foo</code> be <code>Hello, %foo%!</code>; this will harm your machine!</p>
+<h3 id="regular-expressions">Regular expressions</h3>
+<p>To search for our macros I make use of two regular expressions:</p>
+<ul>
+<li>Major:    <code>\$[a-zA-Z0-9\/\.]+\$</code></li>
+<li>Minor:    <code>[\/a-zA-Z0-9\.]+</code></li>
+</ul>
+<p>Major finds the actual macro, while minor finds the file path inside the macro.
+To compile these regular expressions I use the std/regexp package, which implements the RE2 engine by Russ Cox.</p>
+<p>I could talk about regular expressions all day, but that is not the point of this article.
+And I will end up writing an article about formal grammers and automata anyway.</p>
+<h3 id="usage">Usage</h3>
+<pre tabindex="0"><code>fcmpose: Compose files with macros
+  -if string
+    	Specify input file
+  -of string
+    	Specify output file (default &#34;/dev/stdout&#34;)
+</code></pre><h3 id="conclusion">Conclusion</h3>
+<p>I enjoyed writing this program, because it made me understand some essential concepts even better.
+And the program ended up the way I wanted: Simple and expressive, at the same time.</p>
+<h3 id="sources">Sources</h3>
+<ul>
+<li><a href="https://man.netbsd.org/cat.1">Manual: cat(1)</a></li>
+<li><a href="https://swtch.com/~rsc/regexp/">Russ Cox: RE2</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Macro_(computer_science)">Wikipedia: Macros</a></li>
+<li><a href="https://github.com/TheDevtop/fcmpose">GitHub: Source</a></li>
+<li><a href="https://github.com/TheDevtop/fcmpose/releases/download/v1.0.0/fcmpose.gz">GitHub: Binary</a></li>
+</ul>
+</article>
+
+        </main><footer id="footer">
+    Copyright © 2023 Thijs Haker
+</footer>
+</body>
+</html>
