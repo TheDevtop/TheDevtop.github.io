@@ -8,8 +8,8 @@
     
     <link rel="stylesheet" href="/css/style.min.css">
 
-    <link rel="canonical" href="https://thedevtop.github.io/fcmpose/" />
-    <title>fcmpose</title>
+    <link rel="canonical" href="https://thedevtop.github.io/compose-files-with-macros/" />
+    <title>Compose files with macros</title>
 </head>
 <body><header id="banner">
     <h2><a href="https://thedevtop.github.io">TheDevtop</a></h2>
@@ -26,7 +26,7 @@
 <main id="content">
 <article>
     <header id="post-header">
-        <h1>fcmpose</h1>
+        <h1>Compose files with macros</h1>
         <div>
                 <time>October 11, 2023</time>
             </div>
@@ -39,7 +39,9 @@ This definition applies very well to fcmpose.
 In fcmpose, macros expand to the contents of their files.
 So the macro <code>$foo$</code> will expand to the content of <code>./foo</code>.
 Do note that this expansion is recursive, and infinite recursion will result in a stack overflow.</p>
-<p>So don&rsquo;t let content of <code>./foo</code> be <code>Hello, %foo%!</code>; this will harm your machine!</p>
+<blockquote>
+<p>Don&rsquo;t let the content of <code>./foo</code> be <code>Hello, %foo%!</code>.</p>
+</blockquote>
 <h3 id="regular-expressions">Regular expressions</h3>
 <p>To search for our macros I make use of two regular expressions:</p>
 <ul>
@@ -50,22 +52,15 @@ Do note that this expansion is recursive, and infinite recursion will result in 
 To compile these regular expressions I use the std/regexp package, which implements the RE2 engine by Russ Cox.</p>
 <p>I could talk about regular expressions all day, but that is not the point of this article.
 And I will end up writing an article about formal grammers and automata anyway.</p>
-<h3 id="usage">Usage</h3>
-<pre tabindex="0"><code>fcmpose: Compose files with macros
-  -if string
-    	Specify input file
-  -of string
-    	Specify output file (default &#34;/dev/stdout&#34;)
-</code></pre><h3 id="conclusion">Conclusion</h3>
-<p>I enjoyed writing this program, because it made me understand some essential concepts even better.
-And the program ended up the way I wanted: Simple and expressive, at the same time.</p>
+<h3 id="conclusion">Conclusion</h3>
+<p>I enjoyed writing this program, because it made me understand some foundational concepts even better.
+And the program ended up the way I wanted: Simple and expressive.</p>
 <h3 id="sources">Sources</h3>
 <ul>
 <li><a href="https://man.netbsd.org/cat.1">Manual: cat(1)</a></li>
 <li><a href="https://swtch.com/~rsc/regexp/">Russ Cox: RE2</a></li>
 <li><a href="https://en.wikipedia.org/wiki/Macro_(computer_science)">Wikipedia: Macros</a></li>
 <li><a href="https://github.com/TheDevtop/fcmpose">GitHub: Source</a></li>
-<li><a href="https://github.com/TheDevtop/fcmpose/releases/download/v1.0.0/fcmpose.gz">GitHub: Binary</a></li>
 </ul>
 </article>
 
