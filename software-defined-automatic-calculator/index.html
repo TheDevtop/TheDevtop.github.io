@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Along the Watchtower">
+    
+    <link rel="shortcut icon" href="https://thedevtop.github.io/favicon.ico">
+    
+    <link rel="stylesheet" href="/css/style.min.css">
+
+    <link rel="canonical" href="https://thedevtop.github.io/software-defined-automatic-calculator/" />
+    <title>Software Defined Automatic Calculator</title>
+</head>
+<body><header id="banner">
+    <h2><a href="https://thedevtop.github.io">TheDevtop</a></h2>
+    <nav>
+        <ul>
+            <li>
+                <a href="/" title="posts">posts</a>
+            </li><li>
+                <a href="/about/" title="about">about</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main id="content">
+<article>
+    <header id="post-header">
+        <h1>Software Defined Automatic Calculator</h1>
+        <div>
+                <time>October 26, 2023</time>
+            </div>
+    </header><p>This article is about SDAC.
+It is a program that takes in a LISP-like language, and prints out a sequence of evaluated statements.
+Here we compute the answer to everything:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-lisp" data-lang="lisp"><span class="line"><span class="cl"><span class="p">(</span><span class="nf">exp</span> <span class="nv">mul</span> <span class="p">(</span><span class="nv">val</span> <span class="o">.</span> <span class="mi">21</span><span class="p">)</span> <span class="p">(</span><span class="nf">exp</span> <span class="nv">add</span> <span class="p">(</span><span class="nv">val</span> <span class="o">.</span> <span class="mi">3</span><span class="p">)</span> <span class="p">(</span><span class="nv">val</span> <span class="o">.</span> <span class="mi">-1</span><span class="p">)))</span>
+</span></span></code></pre></div><p>This looks very simple and it is; even cooler, the implementation is as simple.</p>
+<h3 id="implementation">Implementation</h3>
+<p>At the basis of SDAC there is the Program type.
+A &ldquo;Program&rdquo; can be either be a value (signed word), or an expression.
+Then there are two functions, the detection function, and the evalutation function.
+The detection function matches the type of the program;
+if the program is a value we return that value, if it is an expression we evaluate that expression.
+The evalutation function matches and executes the expression, returning a value.</p>
+<p>Doing this in a recursive fashion opens up the possibility to write real programs by compositing expressions.</p>
+<h3 id="lisp-the-soul-of-a-new-machine">LISP: The soul of a new machine</h3>
+<p>To be true to myself, I know some LISP, but I never learned it formally from first principles.
+So that is what I will be doing.
+And who knows, maybe I will write an article about my experience learning LISP <em>(This is called: Unapologetic foreshadowing)</em>.</p>
+<h3 id="sources">Sources</h3>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/42_(number)#The_Hitchhiker's_Guide_to_the_Galaxy">The answer to everything (Wiki)</a></li>
+<li><a href="https://github.com/TheDevtop/sdac/tree/main">SDAC (GitHub)</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Lisp_(programming_language)">Lisp (Wiki)</a></li>
+</ul>
+</article>
+
+        </main><footer id="footer">
+    Copyright © 2023 Thijs Haker
+</footer>
+</body>
+</html>

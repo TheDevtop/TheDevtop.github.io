@@ -6,9 +6,43 @@
     <description>Recent content on TheDevtop</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Wed, 11 Oct 2023 22:48:05 +0200</lastBuildDate>
+    <lastBuildDate>Thu, 26 Oct 2023 11:21:43 +0200</lastBuildDate>
     
 	<atom:link href="https://thedevtop.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    
+    <item>
+      <title>Software Defined Automatic Calculator</title>
+      <link>https://thedevtop.github.io/software-defined-automatic-calculator/</link>
+      <pubDate>Thu, 26 Oct 2023 11:21:43 +0200</pubDate>
+      
+      <guid>https://thedevtop.github.io/software-defined-automatic-calculator/</guid>
+      <description>&lt;p&gt;This article is about SDAC.
+It is a program that takes in a LISP-like language, and prints out a sequence of evaluated statements.
+Here we compute the answer to everything:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-lisp&#34; data-lang=&#34;lisp&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;exp&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;mul&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;val&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;21&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;exp&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;add&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;val&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;val&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;-1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)))&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This looks very simple and it is; even cooler, the implementation is as simple.&lt;/p&gt;
+&lt;h3 id=&#34;implementation&#34;&gt;Implementation&lt;/h3&gt;
+&lt;p&gt;At the basis of SDAC there is the Program type.
+A &amp;ldquo;Program&amp;rdquo; can be either be a value (signed word), or an expression.
+Then there are two functions, the detection function, and the evalutation function.
+The detection function matches the type of the program;
+if the program is a value we return that value, if it is an expression we evaluate that expression.
+The evalutation function matches and executes the expression, returning a value.&lt;/p&gt;
+&lt;p&gt;Doing this in a recursive fashion opens up the possibility to write real programs by compositing expressions.&lt;/p&gt;
+&lt;h3 id=&#34;lisp-the-soul-of-a-new-machine&#34;&gt;LISP: The soul of a new machine&lt;/h3&gt;
+&lt;p&gt;To be true to myself, I know some LISP, but I never learned it formally from first principles.
+So that is what I will be doing.
+And who knows, maybe I will write an article about my experience learning LISP &lt;em&gt;(This is called: Unapologetic foreshadowing)&lt;/em&gt;.&lt;/p&gt;
+&lt;h3 id=&#34;sources&#34;&gt;Sources&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/42_(number)#The_Hitchhiker&#39;s_Guide_to_the_Galaxy&#34;&gt;The answer to everything (Wiki)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/TheDevtop/sdac/tree/main&#34;&gt;SDAC (GitHub)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/Lisp_(programming_language)&#34;&gt;Lisp (Wiki)&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
     
     
     
