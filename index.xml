@@ -34,7 +34,7 @@ The evalutation function matches and executes the expression, returning a value.
 &lt;h3 id=&#34;lisp-the-soul-of-a-new-machine&#34;&gt;LISP: The soul of a new machine&lt;/h3&gt;
 &lt;p&gt;To be true to myself, I know some LISP, but I never learned it formally from first principles.
 So that is what I will be doing.
-And who knows, maybe I will write an article about my experience learning LISP &lt;em&gt;(This is called: Unapologetic foreshadowing)&lt;/em&gt;.&lt;/p&gt;
+And who knows, maybe I will write an article about my experience learning LISP &lt;em&gt;(This is unapologetic foreshadowing)&lt;/em&gt;.&lt;/p&gt;
 &lt;h3 id=&#34;sources&#34;&gt;Sources&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/42_(number)#The_Hitchhiker&#39;s_Guide_to_the_Galaxy&#34;&gt;The answer to everything (Wiki)&lt;/a&gt;&lt;/li&gt;
@@ -132,41 +132,46 @@ About which I will undoubtedly write about.&lt;/p&gt;
     
     
     <item>
-      <title>The compiler is right</title>
-      <link>https://thedevtop.github.io/the-compiler-is-right/</link>
-      <pubDate>Tue, 03 Oct 2023 22:21:54 +0200</pubDate>
+      <title>Hicking with NetBSD</title>
+      <link>https://thedevtop.github.io/hicking-with-netbsd/</link>
+      <pubDate>Thu, 05 Oct 2023 20:51:33 +0200</pubDate>
       
-      <guid>https://thedevtop.github.io/the-compiler-is-right/</guid>
-      <description>&lt;p&gt;Last summer was quite special, for me it was the summer of Rust.
-I started at &amp;ldquo;Hello, world!&amp;rdquo; and ended with multi-threaded Map/Filter/Reduce functions, all while handling errors &lt;strong&gt;correctly&lt;/strong&gt;.
-The Rust compiler is a real help with that, and it&amp;rsquo;s because of its strictness that it can produce such helpfull messages.&lt;/p&gt;
-&lt;p&gt;After the summer break I found out that: Not only did Rust grinding improve my general (Go/C) programming skills, it also improved my taste for good error messaging.
-If C thaught me how the machine worked, then Rust taught me what the machine could do.
-There is a slight irony there because even tough Rust and C are both seen as systems languages, in personality they are very much the opposite.&lt;/p&gt;
-&lt;h3 id=&#34;colliding-characters&#34;&gt;Colliding characters&lt;/h3&gt;
-&lt;p&gt;The C programming language is in spirit the same as its elder brother: The UNIX operating system.
-Both view the universe trough a single lens.
-In UNIX, everything is a file descriptor; in C, everything is a pointer.
-They allow you great flexibility in how to interact with that universe, sometimes even to a ridiculus extend.
-Herein lies the problem, you can use that flexibility to break the universe.&lt;/p&gt;
-&lt;p&gt;Enter Rust, its lens is like C (everything is a pointer).
-But its argument is rather different: The universe is presumed fragile, thus we will only allow interaction in a &lt;strong&gt;correct&lt;/strong&gt; manner.
-Correct meaning the disambiguation of memory/pointers.&lt;/p&gt;
-&lt;p&gt;Programmers don&amp;rsquo;t think about this too often, but these arguments are interwoven with the behaviour of the compilers.
-Which is why Rust won&amp;rsquo;t compile your code and give you very explicit errors; and why C will compile almost any crazy contraption you will come up with.&lt;/p&gt;
-&lt;p&gt;But here is the kicker, you can learn from both worlds.&lt;/p&gt;
-&lt;h3 id=&#34;the-better-programmer&#34;&gt;The better programmer&lt;/h3&gt;
-&lt;p&gt;A good programmer can break problems down in small pieces (top-down), and build solutions from simple primitives (bottom-up).
-A better programmer also knows (like the good blacksmith), that steel can be used to both build railroads and swords.
-Sometimes you will need to probe into the soul of the machine;
-learning the lessons from Rust and applying them as practice into C codebases has made me a better programmer, and it will make you.&lt;/p&gt;
-&lt;p&gt;Whether your code will compile or not, the compiler is right.&lt;/p&gt;
-&lt;h3 id=&#34;sources&#34;&gt;Sources&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://www.amazon.nl/-/en/Steve-Klabnik/dp/1718503105&#34;&gt;Book: The Rust Programming Language&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://www.amazon.com/Programming-Language-2nd-Brian-Kernighan/dp/0131103628&#34;&gt;Book: The C Programming Language&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://www.amazon.com/Unix-Programming-Environment-Prentice-Hall-Software/dp/013937681X&#34;&gt;Book: The UNIX Programming Environment&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
+      <guid>https://thedevtop.github.io/hicking-with-netbsd/</guid>
+      <description>&lt;p&gt;This last semester, I have been spending much time with NetBSD.
+In this article I will tell you about the adventures, and how it has developed me as a programmer.&lt;/p&gt;
+&lt;h3 id=&#34;over-the-fence-off-the-wall&#34;&gt;Over the fence, off the wall&lt;/h3&gt;
+&lt;p&gt;So a while ago, a good colleague of mine wrote a Linux kernel module for fun and exercise.
+This module is called &lt;a href=&#34;https://github.com/DiederikDeZee/schutting&#34;&gt;/dev/schutting&lt;/a&gt;, and it is a /dev/null clone.
+The term &amp;lsquo;schutting&amp;rsquo; meaning &amp;lsquo;fence&amp;rsquo; in Dutch, is a reference to the proverb &amp;ldquo;Over de schutting gooien&amp;rdquo; which means:
+Making something not &lt;strong&gt;your&lt;/strong&gt; problem anymore.&lt;/p&gt;
+&lt;p&gt;Because I thought this was a really interesting exercise, I decided to port /dev/schutting to NetBSD.
+I started with an empty C source file, and I looked up the function signatures for device open(), read(), write(), and close();
+which I implemented with the functionality of /dev/null.
+Funny enough, the first try did not succeed.&lt;/p&gt;
+&lt;p&gt;The thing is that the build system is both very good, and very weird.
+It does not want you to be creative with naming certain functions, specifically the device attach function;
+in my case &lt;code&gt;void schuttingattach(int);&lt;/code&gt;.
+If you turn it into &lt;code&gt;schutting_attach()&lt;/code&gt; or &lt;code&gt;SchuttingAttach()&lt;/code&gt; all will be fine&amp;hellip;
+Until the linking phase comes, then the compiler will scream at you without telling you what is actually going on!&lt;/p&gt;
+&lt;p&gt;After spending the saturday evening figuring out why things where not working, I discovered proper spelling and the building of the kernel succeeded. After a short reboot and a couple of attempts with &lt;a href=&#34;https://man.netbsd.org/mknod.8&#34;&gt;mknod(8)&lt;/a&gt; I had a working /dev/schutting. Overall this project was really fun.&lt;/p&gt;
+&lt;p&gt;Finally, I want to thank my colleague for his encouragement regarding projects like these.&lt;/p&gt;
+&lt;h3 id=&#34;chroot-environments&#34;&gt;Chroot environments&lt;/h3&gt;
+&lt;p&gt;As my personal project this semester, I choose to implement a container-like runtime called: &lt;a href=&#34;https://github.com/TheDevtop/rootve&#34;&gt;RootVE&lt;/a&gt;.
+It works similair to &lt;a href=&#34;https://containerd.io/&#34;&gt;containerd&lt;/a&gt;, and makes much use of facilities found in NetBSD.
+RootVE can create environments for both interactive and background services/applications.
+It does this by leveraging terminal control groups.
+I even implemented (altough not that elegant) networking.&lt;/p&gt;
+&lt;p&gt;At the time of writing, RootVE does contain some inelegances and inconsistencies.
+But considering the entire system is written in less then 1000 lines of code, I would say it pretty complete.
+I really enjoyed this project, because it made me reach the limit of what Go could teach me about programming.&lt;/p&gt;
+&lt;h3 id=&#34;pipes-ports-and-channels&#34;&gt;Pipes, Ports, and Channels&lt;/h3&gt;
+&lt;p&gt;I like tinkering on &lt;em&gt;de novo&lt;/em&gt; operating systems, and one of such systems is &lt;a href=&#34;https://9p.io/plan9/&#34;&gt;Plan 9&lt;/a&gt;.
+Plan 9 has this device called &lt;a href=&#34;https://9p.io/magic/man2html?man=srv&amp;amp;sect=3&#34;&gt;srv(3)&lt;/a&gt; which is a registry for file descriptor backed channels.
+Altough NetBSD does not have such a device, it does have two component parts: tmpfs, and pipes.&lt;/p&gt;
+&lt;p&gt;So I wrote a couple of scripts:
+One would mount a tmpfs on &lt;code&gt;/srv&lt;/code&gt; at startup, the other a shell library that implements functions for (de)registering pipes.&lt;/p&gt;
+&lt;p&gt;I realised I could do the same for sockets.
+For good meassure (and use in RootVE), I wrote a Go package and put all of it into a single repository called &lt;a href=&#34;https://github.com/TheDevtop/ipcfs&#34;&gt;ipcfs&lt;/a&gt;.&lt;/p&gt;
 </description>
     </item>
     
