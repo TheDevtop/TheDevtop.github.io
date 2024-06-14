@@ -6,9 +6,46 @@
     <description>Recent content on TheDevtop</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Thu, 26 Oct 2023 11:21:43 +0200</lastBuildDate>
+    <lastBuildDate>Fri, 14 Jun 2024 20:35:57 +0200</lastBuildDate>
     
 	<atom:link href="https://thedevtop.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    
+    <item>
+      <title>The end of the first era</title>
+      <link>https://thedevtop.github.io/the-end-of-the-first-era/</link>
+      <pubDate>Fri, 14 Jun 2024 20:35:57 +0200</pubDate>
+      
+      <guid>https://thedevtop.github.io/the-end-of-the-first-era/</guid>
+      <description>&lt;p&gt;In this article I am going to tell you about my reevaluation of my mental model of IT.
+My old mental model was the UNIX filesystem, in this model everything in IT is explained with reading and writing files.
+So the execution of a program is like the reading of a file from the filesystem into a memory file (a page), after which you execute it (essentially by reading from that memory file).
+Likewise the communication between client and server is like the reading and writing to a file that happens to be (partially) located on a different machine.&lt;/p&gt;
+&lt;p&gt;This model has been a real help in the first part of my career; but this last semester has also shown that there are limits to what can be explored/explained with the UNIX model.
+It&amp;rsquo;s not the case that I am going to discard UNIX, on the contrary; I am going to cement it as the canonical Operating System.
+But I am going to discard the UNIX model as my central theory of computing.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Unix is dead, God bless Unix!&lt;/em&gt;&lt;/p&gt;
+&lt;h3 id=&#34;the-secondsymbolic-era&#34;&gt;The second/symbolic era&lt;/h3&gt;
+&lt;p&gt;As mentioned in the &lt;a href=&#34;https://thedevtop.github.io/software-defined-automatic-calculator/&#34;&gt;SDAC&lt;/a&gt; article, I wanted to learn Lisp.
+So a few months ago I bought the &lt;a href=&#34;https://web.mit.edu/6.001/6.037/sicp.pdf&#34;&gt;SICP book&lt;/a&gt; and learned Scheme (a minimal functional Lisp).
+Within the first two chapters I fell in love with the notion of symbolic programming.
+Specifically the notion that if everything is a symbolic expression, the difference between &amp;ldquo;code&amp;rdquo; and &amp;ldquo;data&amp;rdquo; is trivial.
+Meaning that you can execute &amp;ldquo;data&amp;rdquo;, and compute on &amp;ldquo;code&amp;rdquo;.
+And because I was in dire need of a theory of computing, I adopted it.&lt;/p&gt;
+&lt;p&gt;For reference I will put my paraphrase of the statement here:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Any program can be correctly designed by the carefull study of computational processes, whether synthesized from the natural world or not.
+The notation of computational processes are symbols, these symbols can be used actively (as code) and passively (as data); but this distinction is not inherent.
+The organization of symbols into programs can be done in three ways:&lt;/p&gt;
+&lt;p&gt;Primitive expressions; these represent the simplest symbols of the process.&lt;/p&gt;
+&lt;p&gt;Means of combination; compound symbols are built from simpler ones.&lt;/p&gt;
+&lt;p&gt;Means of abstraction; compound symbols can be named and manipulated as symbols themselves.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;After the adoption I worked/am-working on several things, which I can&amp;rsquo;t disclose because I have a contract.
+Nonetheless I noticed that concept like higher-order and recursive functions make more sense when looking at it trough the lens of symbolic programming.&lt;/p&gt;
+</description>
+    </item>
     
     
     
@@ -178,11 +215,11 @@ For good meassure (and use in RootVE), I wrote a Go package and put all of it in
     
     
     <item>
-      <title>UVM: A secret love letter</title>
-      <link>https://thedevtop.github.io/uvm-a-secret-love-letter/</link>
+      <title>UVM: A love letter</title>
+      <link>https://thedevtop.github.io/uvm-a-love-letter/</link>
       <pubDate>Tue, 03 Oct 2023 19:25:35 +0200</pubDate>
       
-      <guid>https://thedevtop.github.io/uvm-a-secret-love-letter/</guid>
+      <guid>https://thedevtop.github.io/uvm-a-love-letter/</guid>
       <description>&lt;p&gt;Recently, I had some DIMM corruption, which led me to decommission one of my machines.
 The hole situation got me thinking about the fragility of software and how not even the most elegant abstraction, can save you from the grim reality of hardware failure.
 It also happens to be a good reason to talk about one of my favorite pieces of software: &lt;a href=&#34;https://www.usenix.org/legacy/event/usenix99/full_papers/cranor/cranor.pdf&#34;&gt;The UVM Virtual Memory System&lt;/a&gt;.&lt;/p&gt;
