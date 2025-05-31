@@ -1,2 +1,61 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Home on DEVTOP</title><link>https://thedevtop.github.io/</link><description>Recent content in Home on DEVTOP</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Mon, 03 Feb 2025 00:25:25 +0100</lastBuildDate><atom:link href="https://thedevtop.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Literature list</title><link>https://thedevtop.github.io/posts/literature/</link><pubDate>Mon, 03 Feb 2025 00:25:25 +0100</pubDate><guid>https://thedevtop.github.io/posts/literature/</guid><description>Last update: 03-02-2025
-Operating systems # M. McKusick The design and implementation of the FreeBSD operating system [978-0321968975] Sun Microsystems Dynamic Instrumentation of Production Systems Link Bell Laboratories Plan 9 from Bell Labs Link Sun Microsystems Solaris Zones: Operating System Support for Consolidating Commercial Workloads Link USENIX The UVM Virtual Memory System Link Sun Microsystems The Zettabyte File System Link Programming/PL # H. Abelson, G.J. Sussman Structure and Interpretation of Computer Programs Link J.</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Home on DEVTOP</title><link>https://thedevtop.github.io/</link><description>Recent content in Home on DEVTOP</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Sat, 31 May 2025 14:26:39 +0200</lastBuildDate><atom:link href="https://thedevtop.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Quicktable</title><link>https://thedevtop.github.io/posts/quicktable/</link><pubDate>Sat, 31 May 2025 14:26:39 +0200</pubDate><guid>https://thedevtop.github.io/posts/quicktable/</guid><description>&lt;blockquote>
+&lt;p>Now all in unison: &lt;code>foo:bar:baz:bar:foo&lt;/code>&lt;/p>
+&lt;/blockquote>
+&lt;h3 class="heading" id="introduction">
+ Introduction
+ &lt;a href="#introduction">#&lt;/a>
+&lt;/h3>
+&lt;p>Being inspired by &lt;a href="https://static.googleusercontent.com/media/research.google.com/en//archive/bigtable-osdi06.pdf">Google Bigtable&lt;/a> left me wanting to write my own wide-column database.
+Now I know that Bigtable is not &amp;ldquo;just&amp;rdquo; a wide-column database, it is a highly-scalable, distributed (CP) database.
+Lucky for me, I don&amp;rsquo;t need &amp;ldquo;highly-scalable&amp;rdquo; or &amp;ldquo;distributed&amp;rdquo;, I have Kubernetes for that.
+What I &lt;em>really&lt;/em> want is a database with a nice API, none of that SQL and weird database connector stuff.
+Just keys and values over JSON/HTTP.
+I want Bigtable but quick, local, and small.&lt;/p></description></item><item><title>Theta</title><link>https://thedevtop.github.io/posts/theta/</link><pubDate>Wed, 07 May 2025 16:55:18 +0200</pubDate><guid>https://thedevtop.github.io/posts/theta/</guid><description>&lt;blockquote>
+&lt;p>What is computing; if not a space where mathematics, logic, and philosophy can elegantly be expressed?&lt;/p>
+&lt;/blockquote>
+&lt;h3 class="heading" id="introduction">
+ Introduction
+ &lt;a href="#introduction">#&lt;/a>
+&lt;/h3>
+&lt;p>While learning LISP and reading &lt;a href="https://web.mit.edu/6.001/6.037/sicp.pdf">SICP&lt;/a> I became enamoured with the evaluator.
+The evaluator is (usually) a function or small program that deconstructs a symbolic expression and tries to get a value out of it.
+If the expression is a value, it simply returns that value;
+but if part of the expression is &lt;em>evaluable&lt;/em> or &lt;em>executable&lt;/em> in itself, it will evaluate that part and apply the rest of the expression to it.
+Which means that if you have a way of defining evaluable an expression (let&amp;rsquo;s call it a &lt;a href="https://en.wikipedia.org/wiki/Lambda_calculus">lambda&lt;/a>);
+you can define and evaluate &lt;strong>any&lt;/strong> computable expression!&lt;/p></description></item><item><title>Literature list</title><link>https://thedevtop.github.io/posts/literature/</link><pubDate>Mon, 03 Feb 2025 00:25:25 +0100</pubDate><guid>https://thedevtop.github.io/posts/literature/</guid><description>&lt;p>Last update: 31-05-2025&lt;/p>
+&lt;h3 class="heading" id="operating-systems">
+ Operating systems
+ &lt;a href="#operating-systems">#&lt;/a>
+&lt;/h3>
+&lt;ul>
+&lt;li>M. McKusick &lt;em>The design and implementation of the FreeBSD operating system&lt;/em> [978-0321968975]&lt;/li>
+&lt;li>Sun Microsystems &lt;em>Dynamic Instrumentation of Production Systems&lt;/em> &lt;a href="https://www.cs.princeton.edu/courses/archive/fall05/cos518/papers/dtrace.pdf">Link&lt;/a>&lt;/li>
+&lt;li>Bell Laboratories &lt;em>Plan 9 from Bell Labs&lt;/em> &lt;a href="https://9p.io/sys/doc/9.pdf">Link&lt;/a>&lt;/li>
+&lt;li>Sun Microsystems &lt;em>Solaris Zones: Operating System Support for Consolidating Commercial Workloads&lt;/em> &lt;a href="https://www.usenix.org/legacy/publications/library/proceedings/lisa04/tech/full_papers/price/price.pdf">Link&lt;/a>&lt;/li>
+&lt;li>USENIX &lt;em>The UVM Virtual Memory System&lt;/em> &lt;a href="https://www.usenix.org/legacy/events/usenix99/full_papers/cranor/cranor.pdf">Link&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;h3 class="heading" id="programmingpl">
+ Programming/PL
+ &lt;a href="#programmingpl">#&lt;/a>
+&lt;/h3>
+&lt;ul>
+&lt;li>H. Abelson, G.J. Sussman &lt;em>Structure and Interpretation of Computer Programs&lt;/em> &lt;a href="https://web.mit.edu/6.001/6.037/sicp.pdf">Link&lt;/a>&lt;/li>
+&lt;li>J. McCarthy &lt;em>Recursive Functions of Symbolic Expressions and Their Computation by Machine&lt;/em> &lt;a href="http://www-formal.stanford.edu/jmc/recursive.pdf">Link&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;h3 class="heading" id="theory">
+ Theory
+ &lt;a href="#theory">#&lt;/a>
+&lt;/h3>
+&lt;ul>
+&lt;li>C.A.R. Hoare &lt;em>Communicating sequential processes&lt;/em> &lt;a href="https://www.cs.cmu.edu/~crary/819-f09/Hoare78.pdf">Link&lt;/a>&lt;/li>
+&lt;li>C.E. Shannon &lt;em>A Mathematical Theory of Communication&lt;/em> &lt;a href="https://people.math.harvard.edu/~ctm/home/text/others/shannon/entropy/entropy.pdf">Link&lt;/a>&lt;/li>
+&lt;li>A.M. Turing &lt;em>On computable numbers, with an application to the entscheidungsproblem&lt;/em> &lt;a href="https://www.cs.virginia.edu/~robins/Turing_Paper_1936.pdf">Link&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;h3 class="heading" id="datastores">
+ Datastores
+ &lt;a href="#datastores">#&lt;/a>
+&lt;/h3>
+&lt;ul>
+&lt;li>Sun Microsystems &lt;em>The Zettabyte File System&lt;/em> &lt;a href="https://www.cs.hmc.edu/~rhodes/cs134/readings/The%20Zettabyte%20File%20System.pdf">Link&lt;/a>&lt;/li>
+&lt;li>Google Inc. &lt;em>Bigtable: A Distributed Storage System for Structured Data&lt;/em> &lt;a href="https://static.googleusercontent.com/media/research.google.com/en//archive/bigtable-osdi06.pdf">Link&lt;/a>&lt;/li>
+&lt;/ul></description></item></channel></rss>
