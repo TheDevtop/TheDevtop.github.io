@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>DEVTOP</title>
+    <link>https://thedevtop.github.io/</link>
+    <description>Recent content on DEVTOP</description>
+    <generator>Hugo</generator>
+    <language>en-US</language>
+    <lastBuildDate>Fri, 10 Jul 2026 12:23:45 +0200</lastBuildDate>
+    <atom:link href="https://thedevtop.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Powered by NetBSD</title>
+      <link>https://thedevtop.github.io/posts/poweredby/</link>
+      <pubDate>Fri, 10 Jul 2026 12:23:45 +0200</pubDate>
+      <guid>https://thedevtop.github.io/posts/poweredby/</guid>
+      <description>&lt;p&gt;This article is about the boostrapping of NetBSD from source to allow &lt;code&gt;/&lt;/code&gt; on ZFS.&lt;/p&gt;&#xA;&lt;h3 id=&#34;to-bsd-or-not-to-bsd&#34;&gt;To BSD or not to BSD&lt;/h3&gt;&#xA;&lt;p&gt;One of my more radical beliefs is that ideas can be good or truth outside of their time/space.&#xA;I believe that UNIX is one of those ideas.&#xA;Even tough most of the world&amp;rsquo;s infrastructure runs the Linux+Docker/Kubernetes stack, I actually belief the the vast majority of computing use-cases are better served with a basic UNIX system.&#xA;Because of this belief, I nuked my Kubernetes control plane and deployed NetBSD.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

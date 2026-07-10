@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    
+    <title>Powered by NetBSD | DEVTOP</title>
+    
+    
+        <meta name="description" content="">
+    
+
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+
+
+
+    <body>
+        <div style="max-width: 75ch; margin: 0 auto; padding: 4ch 2ch;">
+            
+            <header style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 2ch; border-bottom: 1px dashed var(--foreground);">
+    <div class="brand">
+        <a href="/" style="text-decoration: none; font-weight: 600;">
+            &#36; DEVTOP<span class="cursor"> &block;</span>
+        </a>
+    </div>
+
+    <nav style="display: flex; gap: 3ch;">
+        
+    </nav>
+</header>
+
+<style>
+     
+    .cursor {
+        animation: blink 1s step-end infinite;
+        color: var(--accent);
+    }
+    @keyframes blink {
+        from, to { opacity: 1; }
+        50% { opacity: 0; }
+    }
+</style>
+
+
+
+            <main>
+                
+    <article style="padding: 2ch 0;">
+        <header style="margin-bottom: 4ch;">
+            <h1 style="color: var(--accent); margin-bottom: 1ch;">Powered by NetBSD</h1>
+            <time style="font-family: monospace; opacity: 0.6;">
+                July 10, 2026
+            </time>
+        </header>
+
+        <div class="post-content">
+            <p>This article is about the boostrapping of NetBSD from source to allow <code>/</code> on ZFS.</p>
+<h3 id="to-bsd-or-not-to-bsd">To BSD or not to BSD</h3>
+<p>One of my more radical beliefs is that ideas can be good or truth outside of their time/space.
+I believe that UNIX is one of those ideas.
+Even tough most of the world&rsquo;s infrastructure runs the Linux+Docker/Kubernetes stack, I actually belief the the vast majority of computing use-cases are better served with a basic UNIX system.
+Because of this belief, I nuked my Kubernetes control plane and deployed NetBSD.</p>
+<h3 id="root-on-zfs">Root on ZFS</h3>
+<p>Well&hellip; I did not just deploy NetBSD.
+I have (because of my profession) some experience with ZFS and I really like it.
+So I wanted to deploy NetBSD with root on ZFS.
+NetBSD does not natively supports root on ZFS, but it does have a ZFS ramdisk (similair to initrd on Linux).
+The documentation instructs you to make an FFS &ldquo;recovery&rdquo; partition that contains the Kernel, some drivers, and the ZFS ramdisk.
+But on machines that have UEFI, you can put all these files in the ESP partition.
+Thus I downloaded the NetBSD sources and used <code>build.sh</code> to compile the Kernel, the Solaris and ZFS drivers, and the ZFS ramdisk onto a newly created ZFS pool.
+I copied the UEFI bootcode over from <code>/usr/mdec</code>, wrote a custom boot config file, put all of these files on the ESP partition of the SSD.</p>
+<pre tabindex="0"><code>/
+├── EFI
+│   ├── BOOT
+│   │   └── BOOTX64.EFI
+│   └── NetBSD
+│       └── boot.cfg
+├── netbsd
+├── stand
+│   └── amd64
+│       └── 11.0
+│           └── modules
+│               ├── solaris
+│               │   └── solaris.kmod
+│               └── zfs
+│                   └── zfs.kmod
+└── zroot
+</code></pre><p><strong>Figure:</strong> The filesystem layout of the ESP partition; the <code>/zroot</code> file is the ZFS ramdisk and the <code>/netbsd</code> file is the NetBSD Kernel.</p>
+<p>Having a Kernel with some drivers to boot ZFS is important, but you also need the rest of the system.
+So I used <code>build.sh</code> again to compile (and install) the rest of NetBSD, after which I used the configuration menu of the NetBSD installer to do some final tweaks.</p>
+<h3 id="turn-me-on-boot-me-up">Turn me on, boot me up</h3>
+<p>After a reboot I found myself with a fresh NetBSD deployment that worked.
+So I copied my SSH keys, installed Neovim as my editor, and started typing away.
+To recap and to give some information about the deployment.</p>
+<p>The computer is a Intel i5 Haswell CPU with 16 GB of memory.
+It has a 256 GB SATA SSD and a RTL8251 network interface.</p>
+<pre tabindex="0"><code>      start       size  index  contents
+          0          1         PMBR
+          1          1         Pri GPT header
+          2         32         Pri GPT table
+         34     262144      1  GPT part - ESP
+     262178    4194304      2  GPT part - swap
+    4456482  495661677      3  GPT part - rpool
+  500118159         32         Sec GPT table
+  500118191          1         Sec GPT header
+</code></pre><p><strong>Figure:</strong> The layout of the SSD (<code>/dev/wd0</code>).</p>
+<pre tabindex="0"><code>rpool/ROOT                      /
+rpool/var                       /var
+rpool/usr                       /usr
+rpool/home                      /home
+rpool/pkg                       /usr/pkg
+</code></pre><p><strong>Figure:</strong> The layout of the ZFS datasets and their mount points.</p>
+<pre tabindex="0"><code>  PID TTY   STAT    TIME COMMAND
+    0 ?     DKl  0:04.61 [system]
+    1 ?     Is   0:00.00 init
+  588 ?     Ss   0:00.03 /usr/sbin/syslogd -s
+  992 ?     Is   0:00.00 /usr/sbin/powerd
+  994 ?     Ss   0:00.26 /usr/sbin/ntpd -p /var/run/ntpd.pid
+ 1008 ?     Is   0:00.03 sshd: /usr/sbin/sshd [listener] 0 of 10-100 startups (sshd)
+ 1173 ?     Is   0:00.02 /usr/sbin/cron
+ 8582 ?     Is   0:00.65 tmux: server (/tmp/tmux-1000/default) (tmux)
+10032 ?     Is   0:00.02 sshd-session: thijs [priv]
+10304 ?     Is   0:02.17 nvim --embed content/posts/poweredby.md
+10472 ?     S    0:01.46 sshd-session: thijs@pts/0 (sshd-session)
+10842 ?     I    0:00.00 qmgr -l -t unix -u
+11042 ?     I    0:00.01 pickup -l -t unix -u
+11436 ?     Is   0:00.00 /usr/libexec/postfix/master -w
+11088 pts/0 Ss   0:00.01 -ksh
+12078 pts/0 O+   0:00.00 ps -A
+ 9248 pts/1 Is   0:00.00 -ksh
+10614 pts/1 I+   0:00.18 nvim content/posts/poweredby.md
+ 9099 pts/2 Is   0:00.01 -ksh
+11498 pts/2 I+   0:00.00 make serve
+12331 pts/2 Il+  0:00.08 hugo serve -D --bind 0.0.0.0
+ 1064 ttyE0 Is+  0:00.03 /usr/libexec/getty Pc constty
+</code></pre><p><strong>Figure:</strong> The activity on the system during a &lsquo;regular&rsquo; day.</p>
+<h3 id="closing-remarks">Closing remarks</h3>
+<ul>
+<li>To use NetBSD is to live the UNIX philosophy.</li>
+<li>Pipes are amazing and I should explore them on a deeper level then &lsquo;mere&rsquo; shell scripts.</li>
+<li>Event programming is cool, and I should be better at it.</li>
+<li>When NetBSD 11.0 is released, I want to do a NetBSD from source on Linux build.</li>
+</ul>
+<h3 id="references">References</h3>
+<ul>
+<li>FreeBSD <em>The Z File System (ZFS)</em> <a href="https://docs.freebsd.org/en/books/handbook/zfs/">link</a></li>
+<li>NetBSD <em>Root On ZFS</em> <a href="https://wiki.netbsd.org/root_on_zfs/">link</a></li>
+<li>Wikipedia <em>Initial ramdisk</em> <a href="https://en.wikipedia.org/wiki/Initial_ramdisk">link</a></li>
+<li>Wikipedia <em>EFI system partition</em> <a href="https://en.wikipedia.org/wiki/EFI_system_partition">link</a></li>
+<li>NetBSD <em>Building the kernel with build.sh</em> <a href="https://www.netbsd.org/docs/guide/en/chap-build.html#chap-boot-cross-build-kernel">link</a></li>
+<li>NetBSD <em>wd(4)</em> <a href="https://man.netbsd.org/wd.4">link</a></li>
+<li>Wikipedia <em>Unix philosophy</em> <a href="https://en.wikipedia.org/wiki/Unix_philosophy">link</a></li>
+<li>NetBSD <em>kqueue(2)</em> <a href="https://man.netbsd.org/kqueue.2">link</a></li>
+<li>NetBSD <em>pipe(2)</em> <a href="https://man.netbsd.org/pipe.2">link</a></li>
+</ul>
+
+        </div>
+    </article>
+
+            </main>
+
+            <footer style="margin-top: 8ch; padding-top: 2ch; border-top: 1px dashed var(--foreground); display: flex; justify-content: space-between; font-size: 0.9em; opacity: 0.8;">
+    <div>
+        &copy; 2026 DEVTOP
+    </div>
+    <div>
+        Designed on and powered by <a href="https://www.netbsd.org" target="_blank" rel="noopener">NetBSD</a>
+    </div>
+</footer>
+
+
+            
+        </div>
+    </body>
+</html>
+
