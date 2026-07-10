@@ -6,8 +6,15 @@
     <description>Recent content on DEVTOP</description>
     <generator>Hugo</generator>
     <language>en-US</language>
-    <lastBuildDate>Fri, 10 Jul 2026 12:23:45 +0200</lastBuildDate>
+    <lastBuildDate>Fri, 10 Jul 2026 22:18:19 +0200</lastBuildDate>
     <atom:link href="https://thedevtop.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Go harder</title>
+      <link>https://thedevtop.github.io/posts/goharder/</link>
+      <pubDate>Fri, 10 Jul 2026 22:18:19 +0200</pubDate>
+      <guid>https://thedevtop.github.io/posts/goharder/</guid>
+      <description>&lt;p&gt;Go is my favorite programming language.&#xA;It was also the first language that I wrote production code in.&#xA;I have written Go programs for almost any operating system and platform: Linux, MacOS, FreeBSD, illumos/Solaris, and even Plan 9.&#xA;One of the things I like about Go is its minimalism.&#xA;You don&amp;rsquo;t need an entire course to understand Go, you don&amp;rsquo;t need tons of tooling to build and maintain Go programs, you don&amp;rsquo;t even need good taste for code styling.&#xA;You just need an editor and the &lt;code&gt;go&lt;/code&gt; command.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Powered by NetBSD</title>
       <link>https://thedevtop.github.io/posts/poweredby/</link>
