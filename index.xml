@@ -13,7 +13,14 @@
       <link>https://thedevtop.github.io/socials/</link>
       <pubDate>Sun, 12 Jul 2026 17:26:57 +0200</pubDate>
       <guid>https://thedevtop.github.io/socials/</guid>
-      <description>&lt;p&gt;&lt;a href=&#34;https://www.linkedin.com/in/thijs-haker-491751177/&#34;&gt;LinkedIn&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://github.com/TheDevtop&#34;&gt;GitHub&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://gitlab.com/thijs.haker&#34;&gt;GitLab&lt;/a&gt;&lt;/p&gt;</description>
+      <description>&lt;p&gt;&lt;a href=&#34;https://www.linkedin.com/in/thijs-haker-491751177/&#34;&gt;LinkedIn&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://github.com/TheDevtop&#34;&gt;GitHub&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://gitlab.com/thijs.haker&#34;&gt;GitLab&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://mastodon.sdf.org/@devtop&#34;&gt;SDF Mastodon&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://forums.freebsd.org/members/devtop.68210/&#34;&gt;FreeBSD&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>On the nature of pipes</title>
+      <link>https://thedevtop.github.io/posts/onpipes/</link>
+      <pubDate>Fri, 10 Jul 2026 22:56:49 +0200</pubDate>
+      <guid>https://thedevtop.github.io/posts/onpipes/</guid>
+      <description>&lt;p&gt;The pipe is the apex interprocess communication mechanism.&#xA;With a pipe, data can flow from one program to the next without any extra code in those programs.&#xA;It is likely the reason why an experimental operating system from 1969 (UNIX), has outlived all others.&lt;/p&gt;&#xA;&lt;p&gt;Fundamentally a pipe is nothing more then a decorated ring buffer.&#xA;The ring buffer is the datastructure which holds the data flowing trough the pipe.&#xA;The decorations are things like its locks, page mappings, and file descriptors.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Go harder</title>

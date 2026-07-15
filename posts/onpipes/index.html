@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-US">
     
-    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -65,7 +65,175 @@
         </header>
 
         <div class="post-content">
-            
+            <p>The pipe is the apex interprocess communication mechanism.
+With a pipe, data can flow from one program to the next without any extra code in those programs.
+It is likely the reason why an experimental operating system from 1969 (UNIX), has outlived all others.</p>
+<p>Fundamentally a pipe is nothing more then a decorated ring buffer.
+The ring buffer is the datastructure which holds the data flowing trough the pipe.
+The decorations are things like its locks, page mappings, and file descriptors.</p>
+<h3 id="devpipe">/dev/pipe</h3>
+<p>I am not going to make pipelines via the shell notation (<code>$ foo | bar | baz</code>); these pipes are unnamed/anonymous.
+To make the examples more clear I am going to create a named pipe, and because a pipe behaves like a character device I am going to put it in <code>/dev</code>.</p>
+<pre tabindex="0"><code># mkfifo -m a=rw /dev/pipe
+</code></pre><p><strong>Figure:</strong> Creating a named pipe.</p>
+<p>First I am going to compare our named pipe with an anonymous pipe, by executing the same shell sequence.
+The output won&rsquo;t be exactly the same, because we are reading from <code>/dev/random</code>.
+The example using the named pipe it split into two parts, a write part and a read part.</p>
+<pre tabindex="0"><code>$ dd if=/dev/random of=/dev/stdout bs=8 count=2 | od -h
+2+0 records in
+2+0 records out
+16 bytes transferred in 0.001 secs (16000 bytes/sec)
+0000000     b844    04c3    a180    16d6    0389    67f4    ee82    1f4f
+0000020
+</code></pre><p><strong>Figure:</strong> Sequence with anonymous pipe.</p>
+<pre tabindex="0"><code>$ dd if=/dev/random of=/dev/pipe bs=8 count=2
+2+0 records in
+2+0 records out
+16 bytes transferred in 0.001 secs (16000 bytes/sec)
+</code></pre><p><strong>Figure:</strong> Write sequence with named pipe.</p>
+<pre tabindex="0"><code>$ od -h /dev/pipe                                       
+0000000     4aca    4894    7955    6bf2    8a5c    d757    3237    a220
+0000020
+</code></pre><p><strong>Figure:</strong> Read sequence with named pipe.</p>
+<p>During the execution of these sequences, the reader (<code>od</code>) is initially being blocked because there is nothing streaming trough the pipe.
+But when the writer (<code>dd</code>) is writing to the pipe the pipe unblocks and the data flows, allowing the reader to read.</p>
+<p>Reading from a blocking pipe is be fun, but what if we don&rsquo;t want to be blocked?</p>
+<h3 id="fstrp1">fstrp(1)</h3>
+<p>In a previous post I wrote that I wanted to practice event programming.
+During the writeup of this post it occurred to me that pipes are the a great way to learn event programming;
+especially because Kqueue (the BSD event notification interface) is such a renowned part of the system.</p>
+<p>In short: fstrp tries to find a string while reading a pipe.
+If it does find the specified string, it will exit and it <strong>won&rsquo;t</strong> write anything.
+If it does not find the specified string, it will write the content of the pipe.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">        Fstrp: Find string in pipe
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">        0 =&gt; Everything went well and the string was found.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">        1 =&gt; Something went wrong (like I/O operation), prints error to stderr.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">        2 =&gt; The string was not found, print content to stderr.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;golang.org/x/sys/unix&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;io&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;os&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;strings&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">var</span> (
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">str</span> <span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">fp</span>  <span style="color:#66d9ef">int</span>         <span style="color:#75715e">// File descriptor</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">fi</span>  <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">FileInfo</span> <span style="color:#75715e">// File info</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">fa</span>  <span style="color:#f92672">*</span><span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">File</span>    <span style="color:#75715e">// File abstraction, wrapper over fp</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">err</span> <span style="color:#66d9ef">error</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">kq</span>  <span style="color:#66d9ef">int</span>           <span style="color:#75715e">// Kqueue descriptor</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">kev</span> <span style="color:#a6e22e">unix</span>.<span style="color:#a6e22e">Kevent_t</span> <span style="color:#75715e">// Kqueue event</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">evl</span> = make([]<span style="color:#a6e22e">unix</span>.<span style="color:#a6e22e">Kevent_t</span>, <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">buf</span> []<span style="color:#66d9ef">byte</span> <span style="color:#75715e">// Buffer</span>
+</span></span><span style="display:flex;"><span>        )
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Make sure all the arguments are met</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> len(<span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Args</span>) <span style="color:#f92672">!=</span> <span style="color:#ae81ff">3</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Fprintln</span>(<span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Stderr</span>, <span style="color:#e6db74">&#34;usage: fstrp [string] [pipe]&#34;</span>)
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Exit</span>(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">str</span> = <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Args</span>[<span style="color:#ae81ff">1</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Make sure that the specified file is an actual pipe</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">fi</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Stat</span>(<span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Args</span>[<span style="color:#ae81ff">2</span>]); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Fprintln</span>(<span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Stderr</span>, <span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Exit</span>(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">fi</span>.<span style="color:#a6e22e">Mode</span>()<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">ModeNamedPipe</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Fprintln</span>(<span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Stderr</span>, <span style="color:#e6db74">&#34;File is not a pipe&#34;</span>)
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Exit</span>(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Open the pipe in non-blocking mode</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Wrap the *os.File around the descriptor</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">fp</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">unix</span>.<span style="color:#a6e22e">Open</span>(<span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Args</span>[<span style="color:#ae81ff">2</span>], <span style="color:#a6e22e">unix</span>.<span style="color:#a6e22e">O_RDONLY</span>|<span style="color:#a6e22e">unix</span>.<span style="color:#a6e22e">O_NONBLOCK</span>, <span style="color:#ae81ff">0</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Fprintln</span>(<span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Stderr</span>, <span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Exit</span>(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">fa</span> = <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">NewFile</span>(uintptr(<span style="color:#a6e22e">fp</span>), <span style="color:#e6db74">&#34;rpipe&#34;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">fa</span>.<span style="color:#a6e22e">Close</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Allocate a Kqueue</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">kq</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">unix</span>.<span style="color:#a6e22e">Kqueue</span>(); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Fprintln</span>(<span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Stderr</span>, <span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Exit</span>(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">unix</span>.<span style="color:#a6e22e">Close</span>(<span style="color:#a6e22e">kq</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Define an read event on the pipe for kqueue</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">kev</span> = <span style="color:#a6e22e">unix</span>.<span style="color:#a6e22e">Kevent_t</span>{
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">Ident</span>:  uint64(<span style="color:#a6e22e">fp</span>),
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">Filter</span>: <span style="color:#a6e22e">unix</span>.<span style="color:#a6e22e">EVFILT_READ</span>,
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">Flags</span>:  <span style="color:#a6e22e">unix</span>.<span style="color:#a6e22e">EV_ADD</span> | <span style="color:#a6e22e">unix</span>.<span style="color:#a6e22e">EV_ENABLE</span> | <span style="color:#a6e22e">unix</span>.<span style="color:#a6e22e">EV_CLEAR</span>,
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">Fflags</span>: <span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">Data</span>:   <span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">Udata</span>:  <span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">n</span> <span style="color:#66d9ef">int</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e">// Wait until the pipe is ready for reading</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">n</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">unix</span>.<span style="color:#a6e22e">Kevent</span>(<span style="color:#a6e22e">kq</span>, []<span style="color:#a6e22e">unix</span>.<span style="color:#a6e22e">Kevent_t</span>{<span style="color:#a6e22e">kev</span>}, <span style="color:#a6e22e">evl</span>, <span style="color:#66d9ef">nil</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>                        <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Fprintln</span>(<span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Stderr</span>, <span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>                        <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Exit</span>(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">n</span> <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">0</span> {
+</span></span><span style="display:flex;"><span>                        <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Fprintln</span>(<span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Stderr</span>, <span style="color:#e6db74">&#34;Invalid event triggered&#34;</span>)
+</span></span><span style="display:flex;"><span>                        <span style="color:#66d9ef">continue</span>
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e">// Read content of the pipe into the buffer</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">buf</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">io</span>.<span style="color:#a6e22e">ReadAll</span>(<span style="color:#a6e22e">fa</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>                        <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Fprintln</span>(<span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Stderr</span>, <span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>                        <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Exit</span>(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">break</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Find specified string in buffer</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">strings</span>.<span style="color:#a6e22e">Contains</span>(string(<span style="color:#a6e22e">buf</span>), <span style="color:#a6e22e">str</span>) {
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Exit</span>(<span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Fprint</span>(<span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Stdout</span>, string(<span style="color:#a6e22e">buf</span>))
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Exit</span>(<span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><strong>Figure:</strong> The source code of fstrp(1).</p>
+<p>I am not going to explain the program here, as the source code commentary provides good enough explanation.
+In short: Instead of waiting for pipe I/O directly, we utilize Kqueue to get notified when the pipe is ready for I/O.</p>
+<h3 id="the-ultimate-design-tool">The ultimate design tool</h3>
+<p>Pipes are amazing.
+I think that to write programs for UNIX-like systems, your program should be able to handle reading from and writing to pipes, even more so than files.
+There are also many more things that can break while handling pipes, SIGPIPE for example.
+I believe the inverse is also true: If your program breaks because it can&rsquo;t handle pipes, your program is not a true &ldquo;UNIX&rdquo; program.
+So handle your pipes, and let your program be great.</p>
+<h3 id="references">References</h3>
+<ul>
+<li>Wikipedia <em>Unix</em> <a href="https://en.wikipedia.org/wiki/Unix">link</a></li>
+<li>NetBSD <em>pipe(2)</em> <a href="https://man.netbsd.org/pipe.2">link</a></li>
+<li>Wikipedia <em>Circular buffer</em> <a href="https://en.wikipedia.org/wiki/Circular_buffer">link</a></li>
+<li>GitHub/NetBSD <em>src/sys/sys/pipe.h</em> <a href="https://github.com/NetBSD/src/blob/trunk/sys/sys/pipe.h">link</a></li>
+<li>GitHub/NetBSD <em>src/sys/kern/sys_pipe.c</em> <a href="https://github.com/NetBSD/src/blob/trunk/sys/kern/sys_pipe.c">link</a></li>
+<li>NetBSD <em>fd(4)</em> <a href="https://man.netbsd.org/fd.4">link</a></li>
+<li>NetBSD <em>mkfifo(1)</em> <a href="https://man.netbsd.org/mkfifo.1">link</a></li>
+<li>NetBSD <em>random(4)</em> <a href="https://man.netbsd.org/random.4">link</a></li>
+<li>NetBSD <em>dd(1)</em> <a href="https://man.netbsd.org/dd.1">link</a></li>
+<li>NetBSD <em>od(1)</em> <a href="https://man.netbsd.org/od.1">link</a></li>
+<li>NetBSD <em>kqueue(2)</em> <a href="https://man.netbsd.org/kqueue.2">link</a></li>
+<li>Wikipedia <em>Event-driven programming</em> <a href="https://en.wikipedia.org/wiki/Event-driven_programming">link</a></li>
+<li>GitHub/TheDevtop <em>fstrp(1)</em> <a href="https://github.com/TheDevtop/fstrp">link</a></li>
+<li>NetBSD <em>signal(7)</em> <a href="https://man.netbsd.org/signal.7">link</a></li>
+</ul>
+
         </div>
     </article>
 

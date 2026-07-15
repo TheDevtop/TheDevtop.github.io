@@ -6,8 +6,15 @@
     <description>Recent content in Posts on DEVTOP</description>
     <generator>Hugo</generator>
     <language>en-US</language>
-    <lastBuildDate>Fri, 10 Jul 2026 22:18:19 +0200</lastBuildDate>
+    <lastBuildDate>Fri, 10 Jul 2026 22:56:49 +0200</lastBuildDate>
     <atom:link href="https://thedevtop.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>On the nature of pipes</title>
+      <link>https://thedevtop.github.io/posts/onpipes/</link>
+      <pubDate>Fri, 10 Jul 2026 22:56:49 +0200</pubDate>
+      <guid>https://thedevtop.github.io/posts/onpipes/</guid>
+      <description>&lt;p&gt;The pipe is the apex interprocess communication mechanism.&#xA;With a pipe, data can flow from one program to the next without any extra code in those programs.&#xA;It is likely the reason why an experimental operating system from 1969 (UNIX), has outlived all others.&lt;/p&gt;&#xA;&lt;p&gt;Fundamentally a pipe is nothing more then a decorated ring buffer.&#xA;The ring buffer is the datastructure which holds the data flowing trough the pipe.&#xA;The decorations are things like its locks, page mappings, and file descriptors.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Go harder</title>
       <link>https://thedevtop.github.io/posts/goharder/</link>
