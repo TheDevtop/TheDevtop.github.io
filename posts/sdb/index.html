@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    
+    <title>Simple database for UNIX systems | DEVTOP</title>
+    
+    
+        <meta name="description" content="">
+    
+
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+
+
+
+    <body>
+        <div style="max-width: 75ch; margin: 0 auto; padding: 4ch 2ch;">
+            
+            <header style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 2ch; border-bottom: 1px dashed var(--foreground);">
+    <div class="brand">
+        <a href="/" style="text-decoration: none; font-weight: 600;">
+            &#36; DEVTOP<span class="cursor"> &block;</span>
+        </a>
+    </div>
+
+    <nav style="display: flex; gap: 3ch;">
+        
+            <a href="/literature" title="Literature" style="text-decoration: none;">
+                [Literature]
+            </a>
+        
+            <a href="/socials" title="Socials" style="text-decoration: none;">
+                [Socials]
+            </a>
+        
+    </nav>
+</header>
+
+<style>
+     
+    .cursor {
+        animation: blink 1s step-end infinite;
+        color: var(--accent);
+    }
+    @keyframes blink {
+        from, to { opacity: 1; }
+        50% { opacity: 0; }
+    }
+</style>
+
+
+
+            <main>
+                
+    <article style="padding: 2ch 0;">
+        <header style="margin-bottom: 4ch;">
+            <h1 style="color: var(--accent); margin-bottom: 1ch;">Simple database for UNIX systems</h1>
+            <time style="font-family: monospace; opacity: 0.6;">
+                July 16, 2026
+            </time>
+        </header>
+
+        <div class="post-content">
+            <p>I dislike relational databases, and I really dislike SQL.
+The problem with both is that they are way too rigid.
+I want flexible and dynamic databases, I want to define a schema on the spot.
+I also like pipes, so a database should be able to handle pipes.</p>
+<p>In the end this means that I have to chose between document databases (like MongoDB) or embedded key/value stores (like Berkeley DB); neither of which I really want.
+So a year ago I decided to write a small database server (in Go) based on Badger.
+I made it, even wrote a Dockerfile for it, and I have never used it since.
+The problem was that I don&rsquo;t want to access some remote server for my data; I want my data to be here, on the metal.
+So I took the code, removed the networking parts, and asked Gemini to clean up the rest.
+Finaly I wrote a command line interface around it and <code>sdb</code> was born.</p>
+<h3 id="sdb1">sdb(1)</h3>
+<p>Usage: <code>sdb [command] [options...]</code></p>
+<p>Commands:</p>
+<ul>
+<li>ls    (List all keys or subset of keys specified by prefix)</li>
+<li>cp    (Copy key/value or set of key/values specified by prefix)</li>
+<li>cat   (Write the value of a key to stdout)</li>
+<li>get   (Write the value of a key to a file)</li>
+<li>mv    (Move key/value or set of key/values specified by prefix)</li>
+<li>pipe  (Read the value of a key from stdin)</li>
+<li>put   (Read the value of a key from a file)</li>
+<li>set   (Read the value of a key from arguments)</li>
+<li>rm    (Remove key/value or set of key/values specified by prefix)</li>
+</ul>
+<p>Because of SDB&rsquo;s flexibility and UNIX conventions, many programs can be made around it.
+If you wanted to make a notes program or a calendar program, you could simply write some trivial shell script around it.
+Like with the system upon which it is built;
+I find that in systems of simplicity, elegance and utility overlap.</p>
+<h3 id="from-the-idea-factory">From the idea factory</h3>
+<p>At work a colleague and I where talking about distributed databases and how we should built one.
+It idea itself is pretty cool, but the implementation will likely be hard.
+Maybe we should do away with the notion that databases and operating systems can&rsquo;t trust each other;
+the idea that databases should have direct I/O access is antiquated.
+With modern filesystems (like ZFS) operating systems do get the reliability and performance expected.</p>
+<h3 id="references">References</h3>
+<ul>
+<li>Wikipedia <em>Relational database</em> <a href="https://en.wikipedia.org/wiki/Relational_database">link</a></li>
+<li>Wikipedia <em>SQL</em> <a href="https://en.wikipedia.org/wiki/SQL">link</a></li>
+<li>Wikipedia <em>MongoDB</em> <a href="https://en.wikipedia.org/wiki/MongoDB">link</a></li>
+<li>Wikipedia <em>Berkeley DB</em> <a href="https://en.wikipedia.org/wiki/Berkeley_DB">link</a></li>
+<li>Dgraph.io <em>Badger</em> <a href="https://dgraph-io.github.io/badger/">link</a></li>
+<li>Google <em>Gemini</em> <a href="https://gemini.google/about/">link</a></li>
+<li>Wikipedia <em>Unix philosophy</em> <a href="https://en.wikipedia.org/wiki/Unix_philosophy">link</a></li>
+<li>NetBSD <em>open(2)</em> <a href="https://man.netbsd.org/open.2">link</a></li>
+<li>NetBSD <em>fsync(2)</em> <a href="https://man.netbsd.org/fsync.2">link</a></li>
+<li>FreeBSD <em>The Z File System (ZFS)</em> <a href="https://docs.freebsd.org/en/books/handbook/zfs/">link</a></li>
+</ul>
+
+        </div>
+    </article>
+
+            </main>
+
+            <footer style="margin-top: 8ch; padding-top: 2ch; border-top: 1px dashed var(--foreground); display: flex; justify-content: space-between; font-size: 0.9em; opacity: 0.8;">
+    <div>
+        &copy; 2026 DEVTOP
+    </div>
+    <div>
+        Designed on and powered by <a href="https://www.netbsd.org" target="_blank" rel="noopener">NetBSD</a>
+    </div>
+</footer>
+
+
+            
+        </div>
+    </body>
+</html>
+

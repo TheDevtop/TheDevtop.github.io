@@ -6,14 +6,21 @@
     <description>Recent content on DEVTOP</description>
     <generator>Hugo</generator>
     <language>en-US</language>
-    <lastBuildDate>Sun, 12 Jul 2026 17:26:57 +0200</lastBuildDate>
+    <lastBuildDate>Thu, 16 Jul 2026 20:50:01 +0200</lastBuildDate>
     <atom:link href="https://thedevtop.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Simple database for UNIX systems</title>
+      <link>https://thedevtop.github.io/posts/sdb/</link>
+      <pubDate>Thu, 16 Jul 2026 20:50:01 +0200</pubDate>
+      <guid>https://thedevtop.github.io/posts/sdb/</guid>
+      <description>&lt;p&gt;I dislike relational databases, and I really dislike SQL.&#xA;The problem with both is that they are way too rigid.&#xA;I want flexible and dynamic databases, I want to define a schema on the spot.&#xA;I also like pipes, so a database should be able to handle pipes.&lt;/p&gt;&#xA;&lt;p&gt;In the end this means that I have to chose between document databases (like MongoDB) or embedded key/value stores (like Berkeley DB); neither of which I really want.&#xA;So a year ago I decided to write a small database server (in Go) based on Badger.&#xA;I made it, even wrote a Dockerfile for it, and I have never used it since.&#xA;The problem was that I don&amp;rsquo;t want to access some remote server for my data; I want my data to be here, on the metal.&#xA;So I took the code, removed the networking parts, and asked Gemini to clean up the rest.&#xA;Finaly I wrote a command line interface around it and &lt;code&gt;sdb&lt;/code&gt; was born.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Socials</title>
       <link>https://thedevtop.github.io/socials/</link>
       <pubDate>Sun, 12 Jul 2026 17:26:57 +0200</pubDate>
       <guid>https://thedevtop.github.io/socials/</guid>
-      <description>&lt;p&gt;&lt;a href=&#34;https://www.linkedin.com/in/thijs-haker-491751177/&#34;&gt;LinkedIn&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://github.com/TheDevtop&#34;&gt;GitHub&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://gitlab.com/thijs.haker&#34;&gt;GitLab&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://mastodon.sdf.org/@devtop&#34;&gt;SDF Mastodon&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://forums.freebsd.org/members/devtop.68210/&#34;&gt;FreeBSD&lt;/a&gt;&lt;/p&gt;</description>
+      <description>&lt;h3 id=&#34;professional&#34;&gt;Professional&lt;/h3&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://www.linkedin.com/in/thijs-haker-491751177/&#34;&gt;LinkedIn&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;a href=&#34;mailto:thijs.haker@sue.nl&#34;&gt;SUE&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://gitlab.com/thijs.haker&#34;&gt;GitLab&lt;/a&gt;&lt;/p&gt;&#xA;&lt;h3 id=&#34;personal&#34;&gt;Personal&lt;/h3&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://github.com/TheDevtop&#34;&gt;GitHub&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://mastodon.sdf.org/@devtop&#34;&gt;SDF Mastodon&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://forums.freebsd.org/members/devtop.68210/&#34;&gt;FreeBSD&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     <item>
       <title>On the nature of pipes</title>

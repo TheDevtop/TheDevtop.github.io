@@ -6,8 +6,15 @@
     <description>Recent content in Posts on DEVTOP</description>
     <generator>Hugo</generator>
     <language>en-US</language>
-    <lastBuildDate>Fri, 10 Jul 2026 22:56:49 +0200</lastBuildDate>
+    <lastBuildDate>Thu, 16 Jul 2026 20:50:01 +0200</lastBuildDate>
     <atom:link href="https://thedevtop.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Simple database for UNIX systems</title>
+      <link>https://thedevtop.github.io/posts/sdb/</link>
+      <pubDate>Thu, 16 Jul 2026 20:50:01 +0200</pubDate>
+      <guid>https://thedevtop.github.io/posts/sdb/</guid>
+      <description>&lt;p&gt;I dislike relational databases, and I really dislike SQL.&#xA;The problem with both is that they are way too rigid.&#xA;I want flexible and dynamic databases, I want to define a schema on the spot.&#xA;I also like pipes, so a database should be able to handle pipes.&lt;/p&gt;&#xA;&lt;p&gt;In the end this means that I have to chose between document databases (like MongoDB) or embedded key/value stores (like Berkeley DB); neither of which I really want.&#xA;So a year ago I decided to write a small database server (in Go) based on Badger.&#xA;I made it, even wrote a Dockerfile for it, and I have never used it since.&#xA;The problem was that I don&amp;rsquo;t want to access some remote server for my data; I want my data to be here, on the metal.&#xA;So I took the code, removed the networking parts, and asked Gemini to clean up the rest.&#xA;Finaly I wrote a command line interface around it and &lt;code&gt;sdb&lt;/code&gt; was born.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>On the nature of pipes</title>
       <link>https://thedevtop.github.io/posts/onpipes/</link>
